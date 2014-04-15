@@ -32,13 +32,3 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 
 
-//static access token
-graph.setAccessToken(access_token);
-console.log("it's right");
-
-
-//add fbgraph api setup
-graph.set('client_id', process.env.facebook_app_id);
-graph.set('client_secret', process.env.facebook_app_secret);
-console.log("a;lkdflks");
-
