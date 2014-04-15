@@ -11,10 +11,13 @@ var handlebars = require('express3-handlebars');
 var app = express();
 var twit = require('twit');
 var fb = require('fbgraph');
-fb.set('client_id', process.env.facebook_app_id);
-fb.set('client_secret', process.env.facebook_app_secret);
-twit.set('client_id', process.env.twitter_app_id);
-twit.set('client_secret', process.env.twitter_app_secret);
+var conf = {
+	client_id: '616452641773191'
+	, client_secret: 'ef64c9bd218a24b5bd83cf67bcb39bd3'
+	, scope: 'read_stream'
+	, redirect_uri: 'http://localhost:3000/auth/facebook'
+	};
+
 
 //route files to load
 var index = require('./routes/index');
@@ -63,14 +66,17 @@ app.get('/auth/facebook', function(req, res) {
       , "redirect_uri":  conf.redirect_uri
       , "scope":         conf.scope
     });
+    console.log('');
 
     if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
       res.redirect(authUrl);
+      console.log('works');
     } else {  //req.query.error == 'access_denied'
       res.send('access denied');
     }
     return;
   }
+
 
   // code is set
   // we'll send that and get the access token
@@ -80,7 +86,9 @@ app.get('/auth/facebook', function(req, res) {
     , "client_secret":  conf.client_secret
     , "code":           req.query.code
   }, function (err, facebookRes) {
-    res.redirect('/UserHasLoggedIn');
+  	console.log("after auth :" + JSON.stringify(facebookRes))
+  	console.log("access token set :" + graph.getAccessToken())
+    res.redirect('http://localhost:3000');
   });
 
 
@@ -100,13 +108,11 @@ app.get('/UserHasLoggedIn', function(req, res) {
   res.render("index", { title: "Logged In" });
 });
 
-
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
-
 
  
  
