@@ -2,13 +2,7 @@
 var express = require('express')
  , graph = require('fbgraph')
  , app = module.exports = express.createServer();
- var conf = {
- 	client_id: '616452641773191'
- ,	client_secret: 'ef64c9bd218a24b5bd83cf67bcb39bd3'
- ,	scope: 'email, user_about_me, user_birthday, user_location, publish_stream'
- ,	redirect_uri: 'http://localhost:3000/auth/facebook'
- };
-var express = require('express');
+var express = require("express");
 var dotenv = require('dotenv');
 dotenv.load();
 var http = require('http');
@@ -16,6 +10,11 @@ var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
 var twit = require('twit');
+var fb = require('fbgraph');
+fb.set('client_id', process.env.facebook_app_id);
+fb.set('client_secret', process.env.facebook_app_secret);
+twit.set('client_id', process.env.twitter_app_id);
+twit.set('client_secret', process.env.twitter_app_secret);
 
 //route files to load
 var index = require('./routes/index');
@@ -33,7 +32,6 @@ app.use(express.bodyParser());
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
@@ -96,8 +94,6 @@ var searchOptions = {
 graph.search(searchOptions, function(err, res) {
   console.log(res); // {data: [{id: xxx, from: ...}, {id: xxx, from: ...}]}
 });
-
-console.log('hi');
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
