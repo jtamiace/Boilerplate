@@ -1,9 +1,13 @@
 //dependencies for each module used
+var dotenv = require('dotenv');
+dotenv.load();
 var express = require('express');
+var graph = require('fbgraph');
 var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
+var twit = require('twit');
 
 //route files to load
 var index = require('./routes/index');
@@ -26,3 +30,15 @@ app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
+
+
+//static access token
+graph.setAccessToken(access_token);
+console.log("it's right");
+
+
+//add fbgraph api setup
+graph.set('client_id', process.env.facebook_app_id);
+graph.set('client_secret', process.env.facebook_app_secret);
+console.log("a;lkdflks");
+
