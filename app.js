@@ -88,7 +88,14 @@ app.get('/auth/facebook', function(req, res) {
 
 });
 
+var searchOptions = {
+    q:     "brogramming"
+  , type:  "post"
+};
 
+graph.search(searchOptions, function(err, res) {
+  console.log(res); // {data: [{id: xxx, from: ...}, {id: xxx, from: ...}]}
+});
 
 console.log('hi');
 
