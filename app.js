@@ -89,12 +89,14 @@ app.get('/auth/facebook', function(req, res) {
 });
 
 
+
+console.log('hi');
+
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
   res.render("index", { title: "Logged In" });
 });
 
-console.log('hi');
 
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
