@@ -76,7 +76,6 @@ app.get('/auth/facebook', function(req, res) {
 
     if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
       res.redirect(authUrl);
-      console.log('works');
     } else {  //req.query.error == 'access_denied'
       res.send('access denied');
     }
@@ -100,6 +99,9 @@ app.get('/auth/facebook', function(req, res) {
 
 });
 
+T.getAuth();
+
+
 T.get('users/suggestions/:slug', { slug: 'funny' }, function (err, reply) {
   //  ...
 })
@@ -115,7 +117,7 @@ graph.search(searchOptions, function(err, res) {
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
-  res.render("index", { title: "Logged In" });
+  res.render("http://localhost:3000", { title: "Logged In" });
 });
 
 //set environment ports and start application
