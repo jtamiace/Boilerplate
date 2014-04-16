@@ -53,8 +53,6 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-graph.setAccessToken(access_token);
-graph.setAppSecret(app_secret)
 
 
 
@@ -105,7 +103,7 @@ app.get('/auth/facebook', function(req, res) {
   }, function (err, facebookRes) {
   	console.log("after auth :" + JSON.stringify(facebookRes))
   	console.log("access token set :" + graph.getAccessToken())
-    res.redirect('http://localhost:3000');
+    res.redirect('http://fierce-eyrie-2881.herokuapp.com/');
   });
 
 

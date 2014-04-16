@@ -20,7 +20,7 @@ var conf = {
 	client_id: '616452641773191'
 	, client_secret: 'ef64c9bd218a24b5bd83cf67bcb39bd3'
 	, scope: 'read_stream'
-	, redirect_uri: 'http://localhost:3000/auth/facebook'
+	, redirect_uri: 'http://fierce-eyrie-2881.herokuapp.com/'
 	};
 
 /**
