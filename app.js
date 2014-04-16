@@ -100,6 +100,10 @@ app.get('/auth/facebook', function(req, res) {
 
 });
 
+T.get('users/suggestions/:slug', { slug: 'funny' }, function (err, reply) {
+  //  ...
+})
+
 var searchOptions = {
     q:     "brogramming"
   , type:  "post"
