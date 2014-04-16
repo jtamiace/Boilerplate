@@ -2,7 +2,6 @@
 var express = require('express')
  , graph = require('fbgraph')
  , app = module.exports = express.createServer();
-var express = require("express");
 var dotenv = require('dotenv');
 dotenv.load();
 var http = require('http');
@@ -17,7 +16,14 @@ var conf = {
 	, scope: 'read_stream'
 	, redirect_uri: 'http://localhost:3000/auth/facebook'
 	};
+var Twit = require('twit');
 
+var T = new Twit({
+    consumer_key:         'WdTGIeFEg0AINc7EYFHqs079G'
+  , consumer_secret:      'aG2ZZ87W8db3hLlqGLB1yCHQt0dxB7xZtWpTT6GGNyfzWvbl0o'
+  , access_token:         '2444589391-cGMmKAKw6VDMz72koR1mtO88nYNvwVl2FDkCq4r'
+  , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
+});
 
 //route files to load
 var index = require('./routes/index');
@@ -50,7 +56,7 @@ app.configure('production', function(){
 });
 
 //routes
-app.get('/', index.view);
+//app.get('/', index.view);
 
 app.get('/', function(req, res){
   res.render("index", { title: "click link to connect" });
