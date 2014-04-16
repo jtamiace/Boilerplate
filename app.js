@@ -1,7 +1,6 @@
 //dependencies for each module used
-var express = require('express')
- , graph = require('fbgraph')
- , app = module.exports = express.createServer();
+
+var express = require('express');
 var dotenv = require('dotenv');
 dotenv.load();
 var http = require('http');
@@ -9,13 +8,9 @@ var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
 var twit = require('twit');
-var fb = require('fbgraph');
-var conf = {
-	client_id: '616452641773191'
-	, client_secret: 'ef64c9bd218a24b5bd83cf67bcb39bd3'
-	, scope: 'read_stream'
-	, redirect_uri: 'http://localhost:3000/auth/facebook'
-	};
+var graph = require('fbgraph');
+var passport = require('passport-facebook'); 
+
 var Twit = require('twit');
 
 var T = new Twit({
@@ -28,6 +23,7 @@ var T = new Twit({
 //route files to load
 var index = require('./routes/index');
 
+
 //database setup - uncomment to set up your database
 //var mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/DATABASE1);
@@ -38,6 +34,7 @@ app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());
+
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -51,19 +48,31 @@ app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+graph.setAccessToken(access_token);
+graph.setAppSecret(app_secret)
+
+
+
 //routes
-//app.get('/', index.view);
+app.get('/', index.view);
 
 app.get('/', function(req, res){
   res.render("index", { title: "click link to connect" });
 });
 
-app.get('/auth/facebook', function(req, res) {
+app.post('/*', function(request, response) {
+  response.redirect('/');
+});
 
+
+
+app.get('/auth/facebook', function(req, res) {
+ 
   // we don't have a code yet
   // so we'll redirect to the oauth dialog
   if (!req.query.code) {
@@ -72,11 +81,14 @@ app.get('/auth/facebook', function(req, res) {
       , "redirect_uri":  conf.redirect_uri
       , "scope":         conf.scope
     });
-    console.log('');
+    
 
     if (!req.query.error) { //checks whether a user denied the app facebook login/permissions
+       console.log("Access Granted");
       res.redirect(authUrl);
     } else {  //req.query.error == 'access_denied'
+     
+      console.log("Access Denied");
       res.send('access denied');
     }
     return;
@@ -97,23 +109,10 @@ app.get('/auth/facebook', function(req, res) {
   });
 
 
+
 });
 
-T.getAuth();
 
-
-T.get('users/suggestions/:slug', { slug: 'funny' }, function (err, reply) {
-  //  ...
-})
-
-var searchOptions = {
-    q:     "brogramming"
-  , type:  "post"
-};
-
-graph.search(searchOptions, function(err, res) {
-  console.log(res); // {data: [{id: xxx, from: ...}, {id: xxx, from: ...}]}
-});
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
@@ -125,6 +124,3 @@ app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
-
- 
- 
