@@ -19,7 +19,7 @@ var T = new Twit({
   , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
 });
 
-var stream = T.stream('statuses/filter', { track: 'grumpycat' })
+var stream = T.stream('statuses/filter', { track: 'asdfgfgdsfg' })
 
 stream.on('tweet', function (tweet) {
   console.log(tweet);
@@ -104,11 +104,17 @@ app.get('/auth/facebook', function(req, res) {
   // get the likes that the user has
 graph.get('/me/likes', function(err, res) {
   console.log(res);
+  //convert to twitter
+  //use JSON object?
+  ///////////////////////////////
+  //call twitter inside of for loop
 })
 
 });
 
-
+//export graph to be used as parameter by other methods
+exports.graph = graph;
+var auth = require('./auth');
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {

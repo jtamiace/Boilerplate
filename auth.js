@@ -39,15 +39,5 @@ var authUrl = graph.getOauthUrl({
 	, "redirect_uri": process.env.redirect_uri //change this to heroku website later in .env
 });
 
-res.redirect(authUrl);
-
-graph.authorize({
-	"client_id": process.env.facebook_app_id
-	, "redirect_uri": process.env.redirect_uri
-	, "client_secret": process.env.facebook_app_secret
-	, "code": req.query.code
-}, function(err, facebookRes) {
-	res.redirect('/loggedIn');
-});
 
 exports.graph = graph;
