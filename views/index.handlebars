@@ -78,6 +78,16 @@
     });
   }
 
+  /* make the API call */
+FB.api(
+    "/{user-id}/likes/{page-id}",
+    function (response) {
+      if (response && !response.error) {
+        console.log(response);
+      }
+    }
+);
+
 
 </script>
 
@@ -88,6 +98,22 @@
 <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true">Click to login!</div>
         
     </div>
+
+
+<!--DATA DISPLAY -->
+
+<!-- 
+<div class="row">
+  <h2>Here are all your Facebook Likes!</h2>
+
+</div> 
+-->
+
+
+
+
+
+
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
 </body>

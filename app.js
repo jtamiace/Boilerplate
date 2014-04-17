@@ -1,5 +1,5 @@
 //dependencies for each module used
-
+//var auth = require('auth.js');
 var express = require('express');
 var dotenv = require('dotenv');
 dotenv.load();
@@ -9,24 +9,18 @@ var handlebars = require('express3-handlebars');
 var app = express();
 var twit = require('twit');
 var graph = require('fbgraph');
-var passport = require('passport-facebook'); 
 
-var Twit = require('twit');
+/*var Twit = require('twit');
 
 var T = new Twit({
     consumer_key:         'WdTGIeFEg0AINc7EYFHqs079G'
   , consumer_secret:      'aG2ZZ87W8db3hLlqGLB1yCHQt0dxB7xZtWpTT6GGNyfzWvbl0o'
   , access_token:         '2444589391-cGMmKAKw6VDMz72koR1mtO88nYNvwVl2FDkCq4r'
   , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
-});
+});*/
 
 //route files to load
 var index = require('./routes/index');
-
-
-//database setup - uncomment to set up your database
-//var mongoose = require('mongoose');
-//mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/DATABASE1);
 
 //Configures the Template engine
 app.engine('handlebars', handlebars());
@@ -55,19 +49,12 @@ app.configure('production', function(){
 
 
 
-
 //routes
-app.get('/', index.view);
 
+//GETS
 app.get('/', function(req, res){
   res.render("index", { title: "click link to connect" });
 });
-
-app.post('/*', function(request, response) {
-  response.redirect('/');
-});
-
-
 
 app.get('/auth/facebook', function(req, res) {
  
@@ -106,7 +93,10 @@ app.get('/auth/facebook', function(req, res) {
     res.redirect('http://fierce-eyrie-2881.herokuapp.com/');
   });
 
-
+  // get the likes that the user has
+graph.get('/me/likes', function(err, res) {
+  console.log(res);
+})
 
 });
 
@@ -114,8 +104,21 @@ app.get('/auth/facebook', function(req, res) {
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
-  res.render("http://localhost:3000", { title: "Logged In" });
+  res.render("http://localhost:3000/", { title: "Logged In" });
 });
+
+
+
+
+//POSTS
+app.post('/*', function(request, response) {
+  response.redirect('/');
+});
+
+app.post('/likes', function(req, res) {
+  console.log('likes');
+})
+
 
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
