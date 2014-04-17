@@ -49,3 +49,5 @@ graph.authorize({
 }, function(err, facebookRes) {
 	res.redirect('/loggedIn');
 });
+
+exports.graph = graph;

@@ -10,14 +10,20 @@ var app = express();
 var twit = require('twit');
 var graph = require('fbgraph');
 
-/*var Twit = require('twit');
+var Twit = require('twit');
 
 var T = new Twit({
     consumer_key:         'WdTGIeFEg0AINc7EYFHqs079G'
   , consumer_secret:      'aG2ZZ87W8db3hLlqGLB1yCHQt0dxB7xZtWpTT6GGNyfzWvbl0o'
   , access_token:         '2444589391-cGMmKAKw6VDMz72koR1mtO88nYNvwVl2FDkCq4r'
   , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
-});*/
+});
+
+var stream = T.stream('statuses/filter', { track: 'grumpycat' })
+
+stream.on('tweet', function (tweet) {
+  console.log(tweet);
+})
 
 //route files to load
 var index = require('./routes/index');
@@ -92,6 +98,8 @@ app.get('/auth/facebook', function(req, res) {
   	console.log("access token set :" + graph.getAccessToken())
     res.redirect('http://fierce-eyrie-2881.herokuapp.com/');
   });
+
+  graph.setAccessToken(accessToken);
 
   // get the likes that the user has
 graph.get('/me/likes', function(err, res) {
