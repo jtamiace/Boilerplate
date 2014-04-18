@@ -2,7 +2,7 @@
 
 <html>
 <head>
-	<title>App</title>	
+	<title>Tweetr App</title>	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
@@ -94,14 +94,17 @@ FB.api(
 <!--
   Below we include the Login Button social plugin. This button uses the JavaScript SDK to
   present a graphical Login button that triggers the FB.login() function when clicked. -->
-
+<div id= "container" align="center">
+<h1>Welcome to Tweetr!</h1>
 <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true">Click to login!</div>
+</div>
 
+<div id= "container" align="center">
 <a class="twitter-timeline" href="https://twitter.com/search?q=%23corgi" data-widget-id="456631330122379265">Tweets about "#corgi"</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 
-
+</div>
 
         
     </div>
