@@ -1,9 +1,10 @@
 //dependencies for each module used
-//var auth = require('auth.js');
+var auth = require('./auth.js');
 var express = require('express');
 var dotenv = require('dotenv');
 dotenv.load();
 var http = require('http');
+var likes = require('./routes/likes');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
@@ -68,9 +69,9 @@ app.get('/auth/facebook', function(req, res) {
   // so we'll redirect to the oauth dialog
   if (!req.query.code) {
     var authUrl = graph.getOauthUrl({
-        "client_id":     conf.client_id
-      , "redirect_uri":  conf.redirect_uri
-      , "scope":         conf.scope
+        "client_id":     process.env.facebook_app_id
+      , "redirect_uri":  process.env.redirect_uri
+      , "scope":         process.env.scope
     });
     
 
@@ -83,38 +84,38 @@ app.get('/auth/facebook', function(req, res) {
       res.send('access denied');
     }
     return;
-  }
+      }
 
 
   // code is set
   // we'll send that and get the access token
   graph.authorize({
-      "client_id":      conf.client_id
-    , "redirect_uri":   conf.redirect_uri
-    , "client_secret":  conf.client_secret
+      "client_id":      process.env.facebook_app_id
+    , "redirect_uri":   process.env.redirect_uri
+    , "client_secret":  process.env.facebook_app_secret
     , "code":           req.query.code
   }, function (err, facebookRes) {
   	console.log("after auth :" + JSON.stringify(facebookRes))
   	console.log("access token set :" + graph.getAccessToken())
-    res.redirect('http://fierce-eyrie-2881.herokuapp.com/');
+    res.redirect('http://localhost:3000');
   });
 
-  graph.setAccessToken(accessToken);
+  
+});
 
+app.get('/me/likes', function(req,response){ 
   // get the likes that the user has
 graph.get('/me/likes', function(err, res) {
-  console.log(res);
-  //convert to twitter
-  //use JSON object?
-  ///////////////////////////////
-  //call twitter inside of for loop
+  response.send(res);
+  
 })
 
 });
 
+
 //export graph to be used as parameter by other methods
 exports.graph = graph;
-var auth = require('./auth');
+
 
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
@@ -122,7 +123,10 @@ app.get('/UserHasLoggedIn', function(req, res) {
 });
 
 
+app.get("/caitlin", function(req,res){
+  res.send("Caitlin is here!");
 
+});
 
 //POSTS
 app.post('/*', function(request, response) {
