@@ -96,8 +96,15 @@ FB.api(
   present a graphical Login button that triggers the FB.login() function when clicked. -->
 <div id= "container" align="center">
 <h1>Welcome to Tweetr!</h1>
-<div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="true">Click to login!</div>
-</div>
+<h3>Choose one of your facebook page likes and see what people are saying about it on Twitter!</h3>
+
+{{#each likes.data}}
+  <p>{{name}}
+  
+{{/each}}
+
+
+<div class="fb-login-button"><a href="/auth/facebook">Login to facebook!</a></div>
 
 <div id= "container" align="center">
 <a class="twitter-timeline" href="https://twitter.com/search?q=%23corgi" data-widget-id="456631330122379265">Tweets about "#corgi"</a>
@@ -109,15 +116,6 @@ FB.api(
         
     </div>
 
-
-<!--DATA DISPLAY -->
-
-<!-- 
-<div class="row">
-  <h2>Here are all your Facebook Likes!</h2>
-
-</div> 
--->
 
 
 

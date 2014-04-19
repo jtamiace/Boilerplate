@@ -20,6 +20,8 @@ var T = new Twit({
   , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
 });
 
+T.getAuth();
+
 var stream = T.stream('statuses/filter', { track: 'asdfgfgdsfg' })
 
 stream.on('tweet', function (tweet) {
@@ -83,7 +85,8 @@ app.get('/auth/facebook', function(req, res) {
       console.log("Access Denied");
       res.send('access denied');
     }
-    return;
+    return;  
+      
       }
 
 
@@ -103,14 +106,26 @@ app.get('/auth/facebook', function(req, res) {
   
 });
 
+
 app.get('/me/likes', function(req,response){ 
   // get the likes that the user has
 graph.get('/me/likes', function(err, res) {
-  response.send(res);
-  
+  fblikes = { likes: res };
+  console.log(fblikes);
+  response.render('index', fblikes);
+ 
 })
 
 });
+
+app.get('/search/tweets', function(req, response) {
+  T.get('/search/tweets', { q: '{{fblikes}} since: 2014-04-18', count: 10} 
+    function(err, reply) {
+      tweetsearch = { tweet: reply };
+      console.log(tweetsearch);
+      response.render('index', tweetsearch);
+    }
+})
 
 
 //export graph to be used as parameter by other methods
@@ -120,12 +135,6 @@ exports.graph = graph;
 // user gets sent here after being authorized
 app.get('/UserHasLoggedIn', function(req, res) {
   res.render("http://localhost:3000/", { title: "Logged In" });
-});
-
-
-app.get("/caitlin", function(req,res){
-  res.send("Caitlin is here!");
-
 });
 
 //POSTS
