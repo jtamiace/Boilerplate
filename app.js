@@ -14,13 +14,11 @@ var graph = require('fbgraph');
 var Twit = require('twit');
 
 var T = new Twit({
-    consumer_key:         'WdTGIeFEg0AINc7EYFHqs079G'
-  , consumer_secret:      'aG2ZZ87W8db3hLlqGLB1yCHQt0dxB7xZtWpTT6GGNyfzWvbl0o'
-  , access_token:         '2444589391-cGMmKAKw6VDMz72koR1mtO88nYNvwVl2FDkCq4r'
-  , access_token_secret:  '8Wyx0PSVMgZp28QeugvoTT4Gp1GE2c3LtWJINOzPk53iM'
+    consumer_key:         process.env.twitter_app_id
+  , consumer_secret:      process.env.twitter_app_secret
+  , access_token:         process.env.twitter_access_token
+  , access_token_secret:  process.env.twitter_access_token_secret
 });
-
-T.getAuth();
 
 var stream = T.stream('statuses/filter', { track: 'asdfgfgdsfg' })
 
@@ -100,12 +98,11 @@ app.get('/auth/facebook', function(req, res) {
   }, function (err, facebookRes) {
   	console.log("after auth :" + JSON.stringify(facebookRes))
   	console.log("access token set :" + graph.getAccessToken())
-    res.redirect('http://localhost:3000');
+    res.redirect('http://localhost:3000/me/likes');
   });
 
   
 });
-
 
 app.get('/me/likes', function(req,response){ 
   // get the likes that the user has
@@ -117,15 +114,6 @@ graph.get('/me/likes', function(err, res) {
 })
 
 });
-
-app.get('/search/tweets', function(req, response) {
-  T.get('/search/tweets', { q: '{{fblikes}} since: 2014-04-18', count: 10} 
-    function(err, reply) {
-      tweetsearch = { tweet: reply };
-      console.log(tweetsearch);
-      response.render('index', tweetsearch);
-    }
-})
 
 
 //export graph to be used as parameter by other methods
