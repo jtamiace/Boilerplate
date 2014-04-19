@@ -20,12 +20,6 @@ var T = new Twit({
   , access_token_secret:  process.env.twitter_access_token_secret
 });
 
-var stream = T.stream('statuses/filter', { track: 'asdfgfgdsfg' })
-
-stream.on('tweet', function (tweet) {
-  console.log(tweet);
-})
-
 //route files to load
 var index = require('./routes/index');
 
@@ -114,6 +108,13 @@ graph.get('/me/likes', function(err, res) {
 })
 
 });
+
+
+var stream = T.stream('statuses/filter', { track: 'lol' })
+
+stream.on('tweet', function (tweet) {
+  console.log(tweet);
+})
 
 
 //export graph to be used as parameter by other methods
